@@ -2,6 +2,8 @@ package br.com.alura.screenmatch.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.OptionalDouble;
 
 @Entity
@@ -21,6 +23,11 @@ public class Serie {
     private String poster;
     private String sinopse;
 
+    @Transient
+    private List<Episodio> episodios = new ArrayList<>();
+
+    public Serie(){}
+
     public Serie(DadosSerie d){
         this.titulo = d.titulo();
         this.totalTemporadas = d.totalTemporadas();
@@ -29,6 +36,14 @@ public class Serie {
         this.atores = d.atores();
         this.poster = d.poster();
         this.sinopse = d.sinopse();
+    }
+
+    public List<Episodio> getEpisodios() {
+        return episodios;
+    }
+
+    public void setEpisodios(List<Episodio> episodios) {
+        this.episodios = episodios;
     }
 
     public Long getId() {
@@ -97,12 +112,12 @@ public class Serie {
 
     @Override
     public String toString() {
-        return "titulo='" + titulo + '\'' +
-                ", totalTemporadas=" + totalTemporadas +
-                ", avaliacao=" + avaliacao +
-                ", genero=" + genero +
-                ", atores='" + atores + '\'' +
-                ", poster='" + poster + '\'' +
-                ", sinopse='" + sinopse + '\'';
+        return "\nTítulo: '" + titulo + '\'' +
+                "\nTotal de temporadas: " + totalTemporadas +
+                "\nAvaliação: " + avaliacao +
+                "\nGênero: " + genero +
+                "\nAtores: '" + atores + '\'' +
+                "\nPôster: '" + poster + '\'' +
+                "\nSinopse: '" + sinopse + '\'';
     }
 }
