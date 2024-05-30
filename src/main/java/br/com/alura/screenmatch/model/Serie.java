@@ -23,7 +23,7 @@ public class Serie {
     private String poster;
     private String sinopse;
 
-    @Transient
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //mapeamento relacional, cascade faz com que os episodios sejam inseridos no banco
     private List<Episodio> episodios = new ArrayList<>();
 
     public Serie(){}
@@ -43,6 +43,7 @@ public class Serie {
     }
 
     public void setEpisodios(List<Episodio> episodios) {
+        episodios.forEach(e -> e.setSerie(this));
         this.episodios = episodios;
     }
 
@@ -118,6 +119,7 @@ public class Serie {
                 "\nGênero: " + genero +
                 "\nAtores: '" + atores + '\'' +
                 "\nPôster: '" + poster + '\'' +
-                "\nSinopse: '" + sinopse + '\'';
+                "\nSinopse: '" + sinopse + '\''+
+                "\nEpisodios: "+ episodios + '\'';
     }
 }
