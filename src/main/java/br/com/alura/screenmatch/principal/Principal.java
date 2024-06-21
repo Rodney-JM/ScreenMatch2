@@ -35,6 +35,8 @@ public class Principal {
                     2 - Buscar episódios
                     3 - Listar séries buscadas
                     4 - Buscar série por Título
+                    5 - Buscar série por ator
+                    6 - Top 5 Séries
                         
                     0 - Sair                                 
                     """;
@@ -56,6 +58,11 @@ public class Principal {
                 case 4:
                     buscarSeriePorTitulo();
                     break;
+                case 5:
+                    buscarSeriePorAtor();
+                    break;
+                case 6:
+                    buscarTop5Series();
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -78,7 +85,7 @@ public class Principal {
         Serie serie = new Serie(dados);
         repositorio.save(serie);
 
-        System.out.println(dados);
+        System.out.println(dados.toString());
     }
 
     private DadosSerie getDadosSerie() {
@@ -132,5 +139,21 @@ public class Principal {
         }else{
             System.out.println("Série não encontrada! ");
         }
+    }
+
+    private void buscarSeriePorAtor(){
+        System.out.println("Digite o nome do autor para a busca:");
+        var atorNome = leitura.nextLine();
+        System.out.println("Avaliações a partir de qual valor?");
+        var avaliacaoMinima = leitura.nextDouble();
+        List<Serie> seriesEncontradas = repositorio.findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(atorNome, avaliacaoMinima);
+        System.out.println("Séries em que " + atorNome + " trabalhou: ");
+
+        seriesEncontradas.forEach(s -> System.out.println(s.getTitulo() + " - Avaliação: " + s.getAvaliacao()));
+    }
+
+    private void buscarTop5Series(){
+        List<Serie> seriesTop = repositorio.findTop5ByOrderByAvaliacaoDesc();
+        seriesTop.forEach(s -> System.out.println(s.getTitulo() + " - Avalição: " + s.getAvaliacao()));
     }
 }
